@@ -1,0 +1,23 @@
+---
+- name: create nginx config
+  sudo: yes
+  template: >-
+    src=templates/nginx-site
+    dest=/etc/nginx/sites-available/{{project_name}}
+
+- name: disable default site
+  sudo: yes
+  file: >-
+    path=/etc/nginx/sites-enabled/default
+    state=absent
+
+- name: enable project site
+  sudo: yes
+  file: >-
+    dest=/etc/nginx/sites-enabled/{{project_name}}
+    src=/etc/nginx/sites-available/{{project_name}}
+    state=link
+
+- name: restart nginx
+  sudo: yes
+  service: name=nginx state=restarted enabled=yes

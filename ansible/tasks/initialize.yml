@@ -1,0 +1,26 @@
+---
+- name: create project user
+  user: name={{project_user}}
+  sudo: yes
+
+- name: update apt-get
+  sudo: yes
+  apt: update_cache=yes cache_valid_time=43200
+
+- name: install apt packages
+  sudo: yes
+  apt: name={{item}}
+  with_items:
+    - nginx
+    - curl
+    - php5
+    - php5-cli
+    - php5-curl
+    - php5-intl
+    - php5-json
+    - php5-mysql
+    - php5-gd
+
+- name: remove apache
+  sudo: yes
+  apt: name=apache2 state=absent purge=yes

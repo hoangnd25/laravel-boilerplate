@@ -1,0 +1,23 @@
+# -*- mode: yaml -*-
+---
+# general
+project_name: test
+project_user: "{{project_name}}"
+log_dir: "{{site_dir}}/logs"
+env: dev
+vagrant_env: false
+
+# nginx
+nginx_log_dir: "/var/log/nginx"
+nginx_access_log: "{{nginx_log_dir}}/{{project_name}}_access.log"
+nginx_error_log: "{{nginx_log_dir}}/{{project_name}}_error.log"
+
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  root_db_pass: 23mn4bjh23jkn
+  db: testphp
+  user: testphp
+  password: sa3fv3rt23km
+

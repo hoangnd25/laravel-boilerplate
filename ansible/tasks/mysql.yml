@@ -1,0 +1,56 @@
+---
+- name: install mysql
+  sudo: yes
+  apt: name={{item}}
+  with_items:
+    - mysql-server
+    - python-mysqldb
+
+- name: Start the mysql service
+  service: name=mysql state=started enabled=yes
+
+- name: update mysql root password for all root accounts
+  mysql_user: name=root host={{ item }} password={{ mysql.root_db_pass }}
+  with_items:
+   - "{{ ansible_hostname }}"
+   - 127.0.0.1
+   - ::1
+   - localhost
+
+- name: copy .my.cnf file with root password credentials
+  template: src=templates/my.cnf dest=~/.my.cnf mode=0600
+
+- name: create mysql user
+  mysql_user: name={{mysql.user}} host={{ item }} password={{mysql.password}} priv=*.*:ALL state=present
+  with_items:
+     - "{{ ansible_hostname }}"
+     - 127.0.0.1
+     - ::1
+     - localhost
+
+- name: create database
+  mysql_db: name={{mysql.db}} state=present
+    
+- name: ensure anonymous users are not in the database
+  mysql_user: name='' host=$item state=absent
+  with_items:
+    - localhost
+
+- name: remove the test database
+  mysql_db: name=test state=absent
+
+- name: Check if mysql script exist exists.
+  stat: path=files/script.sql
+  register: mysql_script
+
+- name: Upload script file
+  when: mysql_script.stat.exists == true
+  sudo: yes
+  sudo_user: "{{project_user}}"
+  copy: >-
+    src=files/script.sql
+    dest=/tmp/script.sql
+    mode=0600
+
+- mysql_db: state=import name={{mysql.db}} target=/tmp/script.sql
+  when: mysql_script.stat.exists == true

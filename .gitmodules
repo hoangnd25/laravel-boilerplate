@@ -1,0 +1,3 @@
+[submodule "ansible/roles/fpm"]
+	path = ansible/roles/fpm
+	url = https://github.com/tmtxt/php5-fpm-ansible-ubuntu.git

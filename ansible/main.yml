@@ -1,0 +1,14 @@
+---
+# Initialize tasks
+- hosts: all
+  tasks:
+    - include: tasks/initialize.yml
+# Main tasks
+- hosts: all
+  sudo: yes
+  roles:
+    - fpm
+  tasks:
+    - include: tasks/mysql.yml
+    - include: tasks/nginx.yml
+    - include: tasks/webapp.yml

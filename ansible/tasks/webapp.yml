@@ -1,0 +1,7 @@
+---
+- name: Copy .env file
+  sudo: yes
+  sudo_user: "{{project_user}}"
+  template: >-
+    src=templates/env
+    dest={{site_dir}}/.env
