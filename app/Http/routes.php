@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'PostController@index');
+Route::get('/', 'Http\PostController@index');
 
 Route::get('/api/posts', 'Api\PostController@getAll');
 Route::post('/api/posts', 'Api\PostController@createOrUpdate');
