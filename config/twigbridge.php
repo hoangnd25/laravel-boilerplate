@@ -110,9 +110,12 @@ return [
             'TwigBridge\Extension\Laravel\Str',
             'TwigBridge\Extension\Laravel\Translator',
             'TwigBridge\Extension\Laravel\Url',
+            function($app){
+                return $app['twig.extension.form'];
+            }
             // 'TwigBridge\Extension\Laravel\Gate',
 
-            // 'TwigBridge\Extension\Laravel\Form',
+//             'TwigBridge\Extension\Laravel\Form',
             // 'TwigBridge\Extension\Laravel\Html',
             // 'TwigBridge\Extension\Laravel\Legacy\Facades',
         ],

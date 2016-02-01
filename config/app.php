@@ -164,6 +164,7 @@ return [
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
         App\Providers\SerializerServiceProvider::class,
         App\Providers\ApiServiceProvider::class,
+        App\Providers\SymfonyFormServiceProvider::class,
         App\Providers\PropertyAccessorProvider::class
 
     ],
@@ -218,7 +219,8 @@ return [
         'Doctrine'      => LaravelDoctrine\ORM\Facades\Doctrine::class,
         'Serializer'    => App\Facades\Serializer::class,
         'Api'           => App\Facades\Api::class,
-        'PropertyAccessor' => \App\Facades\PropertyAccessor::class
+        'PropertyAccessor' => \App\Facades\PropertyAccessor::class,
+        'FormFactory'   => \App\Facades\FormFactory::class
     ],
 
 ];

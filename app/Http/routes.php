@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('/', 'Http\PostController@index');
+Route::get('/', 'Http\PostController@index')->name('post.list');
+Route::match(['get', 'post'], '/create', 'Http\PostController@createOrEdit')->name('post.create');
+Route::match(['get', 'post'], '/edit/{id}', 'Http\PostController@createOrEdit')->name('post.edit');
+Route::get('/remove/{id}', 'Http\PostController@remove')->name('post.remove');
 
 Route::get('/api/posts', 'Api\PostController@getAll');
 Route::post('/api/posts', 'Api\PostController@createOrUpdate');
