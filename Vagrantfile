@@ -6,13 +6,14 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
 
   # config variables
-  project_name = "yummi"
+  project_name = "laravel-boilerplate"
   project_user = "vagrant"
   site_dir = '/vagrant'
   log_dir = '/vagrant/logs'
+  vagrant_ip = '10.0.0.99'
 
   # port forwarding
-  config.vm.network :forwarded_port, guest: 80, host: 9260
+  config.vm.network :forwarded_port, guest: 80, host: 9234
 
   # shared folders
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
@@ -26,7 +27,7 @@ Vagrant.configure(2) do |config|
 
   # provider
   config.vm.provider :virtualbox do |vb,override|
-  	override.vm.network "private_network", ip: "10.0.0.174"
+  	override.vm.network "private_network", ip: "#{vagrant_ip}"
     shared_folders.each do |source, destination|
       FileUtils.mkpath source
       config.vm.synced_folder source, destination
@@ -38,7 +39,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider :parallels do |v,override|	
 	override.vm.box = "parallels/ubuntu-14.04"	
-	override.vm.network "private_network", ip: "10.0.0.10"
+	override.vm.network "private_network", ip: "#{vagrant_ip}"
 	v.memory = 1536
   	v.cpus = 3
   end
