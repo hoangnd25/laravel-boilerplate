@@ -1,6 +1,6 @@
 APP_ENV=local
 APP_DEBUG=true
-APP_KEY=SomeRandomString
+APP_KEY=1UfzCn4iEbELc5lV4TONa0Y6wZbK1IFe
 
 DB_HOST={{mysql.host}}
 DB_DATABASE={{mysql.db}}

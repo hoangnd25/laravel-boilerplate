@@ -20,6 +20,7 @@
     - php5-json
     - php5-mysql
     - php5-gd
+    - php5-mcrypt
 
 - name: remove apache
   sudo: yes
