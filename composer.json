@@ -16,7 +16,8 @@
         "symfony/security-csrf": "^3.0",
         "symfony/locale": "^2.8",
         "symfony/validator": "^3.0",
-        "symfony/doctrine-bridge": "^3.0"
+        "symfony/doctrine-bridge": "^3.0",
+        "ramsey/uuid": "^3.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

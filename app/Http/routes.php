@@ -24,6 +24,18 @@
 
 Route::group(['middleware' => ['web']], function ()
 {
+    Route::get('auth/login', 'Auth\AuthController@getLogin')->name('auth.login');
+    Route::post('auth/login', 'Auth\AuthController@postLogin')->name('auth.login_check');
+    Route::get('auth/logout', 'Auth\AuthController@getLogout')->name('auth.logout');
+
+    Route::get('auth/register', 'Auth\AuthController@getRegister')->name('auth.register');
+    Route::post('auth/register', 'Auth\AuthController@postRegister')->name('auth.register_check');
+
+    Route::get('password/email', 'Auth\PasswordController@getEmail')->name('auth.reset_password.request');
+    Route::post('password/email', 'Auth\PasswordController@postEmail')->name('auth.reset_password.request_check');
+    Route::get('password/reset/{email}/{token}', 'Auth\PasswordController@getReset')->name('auth.reset_password.update');
+    Route::post('password/reset', 'Auth\PasswordController@postReset')->name('auth.reset_password.update_check');
+
     Route::get('/', 'Http\PostController@index')->name('post.list');
     Route::match(['get', 'post'], '/create', 'Http\PostController@createOrEdit')->name('post.create');
     Route::match(['get', 'post'], '/edit/{id}', 'Http\PostController@createOrEdit')->name('post.edit');

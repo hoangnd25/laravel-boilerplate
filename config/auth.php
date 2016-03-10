@@ -42,7 +42,7 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'api_token',
             'provider' => 'users',
         ],
     ],
@@ -66,8 +66,8 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
+            'driver' => 'doctrine',
+            'model' => App\Model\User::class,
         ],
 
         // 'users' => [

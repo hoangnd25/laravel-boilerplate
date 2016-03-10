@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'Sender@Boilerplate.com', 'name' => 'Sender'],
 
     /*
     |--------------------------------------------------------------------------

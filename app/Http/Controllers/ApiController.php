@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Facades\Api;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class ApiController extends Controller
 {
+    protected $guard ='api';
+
     public function getDefaultListSerializerGroup(){
         return array();
     }
@@ -60,5 +64,13 @@ abstract class ApiController extends Controller
         EntityManager::persist($object);
         EntityManager::flush();
         return Api::render($object, $this->getDefaultDetailsSerializerGroup());
+    }
+
+    /**
+     * @return Guard
+     */
+    protected function getGuard()
+    {
+        return Auth::guard($this->guard);
     }
 }
