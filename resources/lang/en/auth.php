@@ -46,7 +46,8 @@ return [
 
     'message' => array(
         'login' => array(
-            'fail' => 'These credentials do not match our records.'
+            'fail' => 'These credentials do not match our records.',
+            'throttle' => 'Too many login attempts. Please try again in :seconds seconds.'
         ),
         'reset_password_request' => array(
             'success' => 'An email has sent to you with instructions to reset your password',
@@ -59,6 +60,4 @@ return [
             'fail' => 'Password reset failed'
         )
     ),
-
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 ];

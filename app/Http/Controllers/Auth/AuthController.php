@@ -6,6 +6,7 @@ use App\Forms\Auth\Type\LoginType;
 use App\Forms\Auth\Type\RegisterType;
 use App\Model\User;
 use Doctrine\ORM\EntityManager;
+use Illuminate\Cache\RateLimiter;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -87,7 +88,11 @@ class AuthController extends Controller
                 $throttles = $this->isUsingThrottlesLoginsTrait();
 
                 if ($throttles && $this->hasTooManyLoginAttempts($request)) {
-                    return $this->sendLockoutResponse($request);
+                    $seconds = app(RateLimiter::class)->availableIn(
+                        $this->getThrottleKey($request)
+                    );
+                    $request->session()->flash('status', trans('auth.message.login.throttle', ['seconds'=>$seconds]));
+                    return redirect()->back();
                 }
 
                 if (Auth::guard($this->getGuard())->attempt($credentials, $formData['rememberMe'])) {
