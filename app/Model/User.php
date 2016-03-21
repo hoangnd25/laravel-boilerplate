@@ -42,6 +42,20 @@ class User implements Authenticatable, CanResetPassword
     protected $apiToken;
 
     /**
+     * @ORM\Column(name="roles", type="array")
+     */
+    protected $roles;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $defaultRole = config('auth.defaults.role');
+        $this->roles = array($defaultRole);
+    }
+
+    /**
      * @return integer
      */
     public function getId()
@@ -166,5 +180,67 @@ class User implements Authenticatable, CanResetPassword
         $this->apiToken = $apiToken;
     }
 
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * @param $role
+     */
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
+    }
+
+    /**
+     * @param $role
+     */
+    public function removeRole($role)
+    {
+        for ($i = 0; $i < count($this->roles); $i++){
+            if ($this->roles[$i] === $role){
+                unset($this->roles[$i]);
+                return;
+            }
+        }
+    }
+
+    /**
+     * @param $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        $role = strtoupper($role);
+        $rolesConfig = config('auth.roles');
+        $roleArray = array();
+
+        // Build role array
+        foreach($this->roles as $currentRole){
+            if(array_key_exists($currentRole, $rolesConfig)){
+                $roleArray[] = $currentRole;
+                $childRoles = $rolesConfig[$currentRole];
+                foreach($childRoles as $child){
+                    if(in_array($child, $roleArray))
+                        continue;
+
+                    $roleArray[] = $child;
+                }
+            }
+        }
+        return in_array($role, $roleArray);
+    }
 }
 

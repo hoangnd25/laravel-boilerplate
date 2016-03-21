@@ -40,6 +40,11 @@ Route::group(['middleware' => ['web']], function ()
     Route::match(['get', 'post'], '/create', 'Http\PostController@createOrEdit')->name('post.create');
     Route::match(['get', 'post'], '/edit/{id}', 'Http\PostController@createOrEdit')->name('post.edit');
     Route::get('/remove/{id}', 'Http\PostController@remove')->name('post.remove');
+
+    Route::group(['middleware' => ['role:ADMIN']], function ()
+    {
+
+    });
 });
 
 Route::group(['middleware' => ['api']], function ()
