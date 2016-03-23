@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validation;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 use Symfony\Component\Security\Csrf\TokenStorage\NativeSessionTokenStorage;
-//use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
@@ -138,10 +138,12 @@ class SymfonyFormServiceProvider extends ServiceProvider
             return new CsrfTokenManager($app['sf.csrf.token_generator'], $app['sf.csrf.token_storage']);
         };
         $this->app['sf.csrf.token_storage'] = function ($app) {
-            // TODO: integrate csrf token manager with laravel session
-//            if (isset($app['session'])) {
-//                return new SessionTokenStorage($app['session'], $app['sf.csrf.session_namespace']);
-//            }
+            $laravelSession = $app['session.store'];
+            if($laravelSession){
+                if (isset($app['session'])) {
+                    return new SessionTokenStorage($laravelSession, $app['sf.csrf.session_namespace']);
+                }
+            }
             return new NativeSessionTokenStorage($app['sf.csrf.session_namespace']);
         };
         $this->app['sf.csrf.token_generator'] = function ($app) {
